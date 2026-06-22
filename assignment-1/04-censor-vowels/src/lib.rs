@@ -1,6 +1,16 @@
 pub fn censor_vowels(s: &mut String) {
     let _ = s;
-    todo!("implement censor_vowels")
+    
+    // if the character is a vowel, replace it with * ; otherwise, keep the character
+    let censored: String = s.chars().map(|c| {
+        if matches!(c, 'a' | 'e' | 'i' | 'o' | 'u' | 'A' | 'E' | 'I' | 'O' | 'U') {
+            '*'
+        } else {
+            c
+        }
+    }).collect();
+
+    *s = censored;
 }
 
 #[cfg(test)]
