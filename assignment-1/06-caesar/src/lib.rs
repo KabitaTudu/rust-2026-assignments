@@ -2,7 +2,33 @@ pub const ALPHABET: &str = "abcdefghijklmnopqrstuvwxyz";
 
 pub fn caesar(input: &str, shift: i32) -> String {
     let _ = (input, shift);
-    todo!("implement caesar")
+    // normalize shift to range [0, 25] using modulo
+    // adding ALPHABET.len() before modulo handles negative shifts correctly
+    let shift = ((shift % ALPHABET.len() as i32) + ALPHABET.len() as i32) % ALPHABET.len() as i32;
+    
+    input
+        .chars()
+        .map(|c| {
+            if c.is_ascii_lowercase() {
+                // find position in alphabet, apply shift, wrap around
+                let pos = (c as usize - 'a' as usize) as i32;
+                let new_pos = (pos + shift) % ALPHABET.len() as i32;
+                ALPHABET.chars().nth(new_pos as usize).unwrap()
+            } else if c.is_ascii_uppercase() {
+                // same logic for uppercase, but convert back to uppercase
+                let pos = (c as usize - 'A' as usize) as i32;
+                let new_pos = (pos + shift) % ALPHABET.len() as i32;
+                ALPHABET
+                    .chars()
+                    .nth(new_pos as usize)
+                    .unwrap()
+                    .to_ascii_uppercase()
+            } else {
+                // no change for non-letters
+                c
+            }
+        })
+        .collect()
 }
 
 #[cfg(test)]
