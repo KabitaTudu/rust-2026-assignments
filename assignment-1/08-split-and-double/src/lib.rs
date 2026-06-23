@@ -1,6 +1,19 @@
 pub fn split_and_double(xs: &mut Vec<i32>, mid: usize) -> (&mut [i32], &mut [i32]) {
-    let _ = (xs, mid);
-    todo!("implement split_and_double")
+    // split the vector into two disjoint mutable slices at index `mid`.
+    // `split_at_mut` panics if `mid > xs.len()`
+    let (left, right) = xs.split_at_mut(mid);
+
+    // double every element in the left slice
+    for x in left.iter_mut() {
+        *x *= 2;
+    }
+
+    // double every element in the right slice
+    for x in right.iter_mut() {
+        *x *= 2;
+    }
+
+    (left, right)
 }
 
 #[cfg(test)]
