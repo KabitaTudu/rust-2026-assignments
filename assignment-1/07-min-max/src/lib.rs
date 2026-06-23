@@ -1,6 +1,25 @@
 pub fn min_max(xs: &[i32]) -> Option<(i32, i32)> {
     let _ = xs;
-    todo!("implement min_max")
+    // for empty slice
+    if xs.is_empty() {
+        return None;
+    }
+
+    // initialize both min and max with the first element
+    let mut min = xs[0];
+    let mut max = xs[0];
+
+    // update both min and max for each element
+    for &x in xs {
+        if x < min {
+            min = x;
+        }
+        if x > max {
+            max = x;
+        }
+    }
+
+    Some((min, max))
 }
 
 #[cfg(test)]
