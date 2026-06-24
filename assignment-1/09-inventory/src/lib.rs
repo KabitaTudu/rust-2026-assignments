@@ -1,14 +1,33 @@
+use std::collections::HashMap;
+
 pub fn restock(
     inventory: Vec<(String, u32)>,
     more: Vec<(String, u32)>,
 ) -> Vec<(String, u32)> {
-    let _ = (inventory, more);
-    todo!("implement restock")
+    // create a HashMap to aggregate quantities by name.
+    // starting with `inventory` avoids cloning its contents.
+    let mut map: HashMap<String, u32> = HashMap::with_capacity(inventory.len() + more.len());
+
+    // process the first list, consuming it.
+    for (name, qty) in inventory {
+        *map.entry(name).or_insert(0) += qty;
+    }
+
+    // process the second list, consuming it.
+    for (name, qty) in more {
+        *map.entry(name).or_insert(0) += qty;
+    }
+
+    // convert the HashMap into a vec.
+    map.into_iter().collect()
 }
 
 pub fn summary(inventory: &[(String, u32)]) -> String {
-    let _ = inventory;
-    todo!("implement summary")
+    let item_count = inventory.len();
+    // calculate total units by summing the quantity (second element) of each tuple.
+    let total_units: u32 = inventory.iter().map(|(_, qty)| qty).sum();
+
+    format!("{} items, {} units", item_count, total_units)
 }
 
 #[cfg(test)]
